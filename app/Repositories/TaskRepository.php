@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Enums\TaskStatus;
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -14,7 +15,7 @@ class TaskRepository implements TaskRepositoryInterface
         $query = Task::query();
 
         if (isset($filters['status'])) {
-            $query->where('status', $filters['status']);
+            $query->where('status', TaskStatus::fromLabel($filters['status'])->getValue());
         }
 
         if (isset($filters['due_date'])) {
